@@ -1,12 +1,25 @@
+/* eslint-disable no-console */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+// import {
+//   Grid, List, ListItem, ListItemText, ListSubheader,
+// } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import {
-  Grid, List, ListItem, ListItemText, ListSubheader,
+  TableContainer, Table, TableCell, TableRow, TableHead, TableBody, Paper,
 } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 500,
+  },
+});
 
 const App = () => {
   const [data, setData] = useState([]);
+
+  const classes = useStyles();
 
   const handleData = () => {
     axios.get('/api/list')
@@ -37,28 +50,28 @@ const App = () => {
   }, []);
 
   return (
-    <Grid
-      container
-      direction="row"
-      alignContent="center"
-      xs={12}
-    >
-      {
-        data.map((listIdGroup, index) => (
-          <Grid item xs={3} key={`group${index}`}>
-            <List subheader={<ListSubheader>{`ListId: ${index}`}</ListSubheader>}>
-              {
-                listIdGroup.map((listItem) => (
-                  <ListItem key={`${listItem.name}-${listItem.id}-${listItem.listId}`}>
-                    <ListItemText primary={`Name: ${listItem.name}`} secondary={`Id: ${listItem.id} ListId: ${listItem.listId}`} />
-                  </ListItem>
-                ))
-              }
-            </List>
-          </Grid>
-        ))
-      }
-    </Grid>
+    data.map((listIdGroup, index) => (
+      <TableContainer component={Paper} key={`group${index}`}>
+        <Table className={classes.table} size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left"><b>List Id</b></TableCell>
+              <TableCell align="center"><b>Name</b></TableCell>
+              <TableCell align="right"><b>Id</b></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {listIdGroup.map((item) => (
+              <TableRow key={item.name}>
+                <TableCell size="small">{item.listId}</TableCell>
+                <TableCell align="center">{item.name}</TableCell>
+                <TableCell align="right">{item.id}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    ))
   );
 };
 
