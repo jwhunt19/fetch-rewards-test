@@ -2,9 +2,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import {
-//   Grid, List, ListItem, ListItemText, ListSubheader,
-// } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   TableContainer, Table, TableCell, TableRow, TableHead, TableBody, Paper,
